@@ -35,15 +35,33 @@ A full-stack web application to capture, organize, and revisit insights from boo
 ---
 
 ## 📂 Project Structure
-book-notes-app/
-├── public/ # Static assets (CSS, images)
-├── views/ # EJS templates
-├── index.js # App entry point / routes
-├── db.js # Database connection & queries
-├── package.json
-└── README.md
 
----
+```bash
+book-notes-app/
+│
+├── db/
+│   └── db.js              # PostgreSQL connection
+│
+├── routes/
+│   └── books.js          # Book routes (CRUD logic)
+│
+├── public/
+│   └── style.css         # Styles
+│
+├── views/                # EJS templates
+│   ├── index.ejs
+│   ├── add.ejs
+│   ├── edit.ejs
+│   ├── book.ejs
+│   └── search.ejs
+│
+├── .env                  # Environment variables
+├── .gitignore
+├── index.js              # Main server file
+├── package.json
+├── package-lock.json
+└── README.md
+```
 
 ## ⚙️ Installation & Setup (Local)
 
