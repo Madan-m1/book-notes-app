@@ -110,12 +110,6 @@ CREATE TABLE books (
 
 ---
 
-## 📸 Screenshots
-
-![Book Notes App](image.png)
-
----
-
 ## 🔥 Future Improvements
 
 - [ ] 🔐 User authentication (login/signup)
