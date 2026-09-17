@@ -9,12 +9,12 @@ A full-stack web application to capture, organize, and revisit insights from boo
 
 ## 🚀 Features
 
-- 📖 Add books with title, author, rating, and notes
-- 🔍 Search books by title, author, or notes
-- 📊 Sort books by date, rating, or title
-- ✏️ Edit and delete books
-- 🖼️ Automatic book cover fetch (OpenLibrary API)
-- 📱 Fully responsive mobile UI
+- 📖 Add books with title, author, rating, and notes  
+- 🔍 Search books by title, author, or notes  
+- 📊 Sort books by date, rating, or title  
+- ✏️ Edit and delete books  
+- 🖼️ Fetch book covers automatically (OpenLibrary API)  
+- 📱 Fully responsive mobile UI  
 
 ---
 
