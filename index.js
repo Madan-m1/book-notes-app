@@ -1,8 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 import express from "express";
 import bodyParser from "body-parser";
 import booksRoutes from "./routes/books.js";
-import dotenv from "dotenv";
-dotenv.config();
 
 const app = express();
 const port = 3000;
