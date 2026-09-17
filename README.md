@@ -2,8 +2,8 @@
 
 A full-stack web application to capture, organize, and revisit insights from books you read.
 
-**Live Demo:** https://book-notes-app-djxk.onrender.com/
-**Repository:** https://github.com/Madan-m1/book-notes-app
+🔗 **Live Demo:** https://book-notes-app-djxk.onrender.com/  
+💻 **Repository:** https://github.com/Madan-m1/book-notes-app
 
 ---
 
