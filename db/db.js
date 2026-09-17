@@ -1,15 +1,15 @@
-import {Client} from "pg";
+import pkg from "pg";
+const { Client } = pkg;
 
 const db = new Client({
-  user: "postgres",
-  host: "localhost",
-  database: "booknotes",
-  password: "pppp",
-  port: 5432,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // required for Neon
+  },
 });
 
 db.connect()
-  .then(() => console.log("Connected to PostgreSQL"))
-  .catch(err => console.error("Connection error", err));
+  .then(() => console.log("Connected to Neon PostgreSQL 🚀"))
+  .catch(err => console.error("Connection error ❌", err));
 
 export default db;
