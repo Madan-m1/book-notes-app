@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Book</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6366f1"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-[#020617] text-white">
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+
+  <!-- HEADER -->
+  <div class="mb-10 sm:mb-12">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+      <span class="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
+        Add New Book
+      </span>
+    </h1>
+
+    <p class="text-gray-500 mt-3 text-sm sm:text-base max-w-md">
+      Search and add books to your personal knowledge library.
+    </p>
+  </div>
+
+  <!-- ERROR -->
+  <% if (typeof error !== 'undefined') { %>
+    <div class="mb-6 sm:mb-8 bg-red-500/10 border border-red-500/30 text-red-400 px-4 py-3 rounded-xl backdrop-blur-md text-sm sm:text-base">
+      ⚠️ This book already exists in your library
+    </div>
+  <% } %>
+
+  <!-- SEARCH CARD -->
+  <div class="relative bg-white/[0.04] backdrop-blur-2xl border border-white/10 rounded-2xl p-5 sm:p-6 md:p-8 shadow-lg">
+
+    <!-- Glow -->
+    <div class="absolute inset-0 bg-indigo-500/10 blur-3xl opacity-20 pointer-events-none rounded-2xl"></div>
+
+    <form action="/search" method="GET" class="relative">
+
+      <label class="block text-sm text-gray-400 mb-3">
+        Search Book
+      </label>
+
+      <!-- INPUT + BUTTON (RESPONSIVE) -->
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-2">
+
+        <!-- Input -->
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="e.g. Atomic Habits, Rich Dad Poor Dad"
+          required
+          class="w-full bg-white/[0.05] border border-white/10 text-white placeholder-gray-500 px-4 sm:px-5 py-3 sm:py-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-sm sm:text-base"
+        >
+
+        <!-- Button -->
+        <button 
+          type="submit"
+          class="w-full sm:w-auto bg-primary hover:bg-indigo-500 px-5 py-3 sm:py-2.5 rounded-xl text-sm font-medium transition shadow-md"
+        >
+          Search
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- BACK -->
+  <div class="mt-8 sm:mt-10">
+    <a href="/" 
+       class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition text-sm">
+      ← Back to Library
+    </a>
+  </div>
+
+</div>
+
+</body>
+</html>

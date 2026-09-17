@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Book</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6366f1"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-[#020617] text-white">
+
+<div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+  <!-- BACK -->
+  <a href="/" class="text-gray-500 hover:text-white text-sm transition">
+    ← Back to Library
+  </a>
+
+  <!-- HEADER -->
+  <div class="mt-6 mb-8 sm:mb-10">
+    <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight">
+      <span class="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
+        Edit Book
+      </span>
+    </h1>
+
+    <p class="text-gray-500 mt-2 text-sm">
+      Update your notes, rating, and reading details.
+    </p>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="relative bg-white/[0.04] backdrop-blur-2xl border border-white/10 rounded-2xl p-5 sm:p-8 shadow-lg">
+
+    <!-- Glow -->
+    <div class="absolute inset-0 bg-indigo-500/10 blur-3xl opacity-20 pointer-events-none rounded-2xl"></div>
+
+    <form action="/edit/<%= book.id %>" method="POST" class="relative space-y-6">
+
+      <!-- TITLE -->
+      <div>
+        <label class="block text-sm text-gray-400 mb-2">Title</label>
+        <input 
+          type="text" 
+          name="title" 
+          value="<%= book.title %>" 
+          required
+          class="w-full bg-white/[0.05] border border-white/10 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+        >
+      </div>
+
+      <!-- AUTHOR -->
+      <div>
+        <label class="block text-sm text-gray-400 mb-2">Author</label>
+        <input 
+          type="text" 
+          name="author" 
+          value="<%= book.author %>" 
+          class="w-full bg-white/[0.05] border border-white/10 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+        >
+      </div>
+
+      <!-- GRID -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+        <!-- ⭐ STAR RATING -->
+        <div>
+          <label class="block text-sm text-gray-400 mb-2">Rating</label>
+
+          <!-- Hidden Input -->
+          <input type="hidden" name="rating" id="ratingValue" value="<%= book.rating || 0 %>">
+
+          <!-- Stars -->
+          <div id="stars" class="flex flex-wrap gap-2 text-2xl cursor-pointer select-none">
+            <% for(let i=1; i<=5; i++){ %>
+              <span 
+                data-value="<%= i %>" 
+                class="star transition text-gray-600"
+              >★</span>
+            <% } %>
+          </div>
+
+          <p id="ratingText" class="text-xs text-gray-500 mt-2">
+            Click to rate
+          </p>
+        </div>
+
+        <!-- DATE -->
+        <div>
+          <label class="block text-sm text-gray-400 mb-2">Date Read</label>
+          <input 
+            type="date" 
+            name="date_read"
+            value="<%= book.date_read ? new Date(book.date_read).toISOString().split('T')[0] : '' %>"
+            class="w-full bg-white/[0.05] border border-white/10 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+          >
+        </div>
+
+      </div>
+
+      <!-- NOTES -->
+      <div>
+        <label class="block text-sm text-gray-400 mb-2">Notes</label>
+        <textarea 
+          name="notes" 
+          rows="5"
+          placeholder="Write your thoughts, key takeaways, quotes..."
+          class="w-full bg-white/[0.05] border border-white/10 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-sm"
+        ><%= book.notes %></textarea>
+      </div>
+
+      <!-- COVER -->
+      <% if (book.cover_id) { %>
+        <div>
+          <p class="text-sm text-gray-400 mb-3">Current Cover</p>
+
+          <div class="bg-white/[0.03] border border-white/10 rounded-xl p-4 flex justify-center">
+            <img 
+              src="https://covers.openlibrary.org/b/id/<%= book.cover_id %>-L.jpg"
+              class="w-full max-w-[200px] sm:max-w-[220px] object-contain rounded shadow-lg"
+            >
+          </div>
+        </div>
+      <% } %>
+
+      <!-- BUTTON -->
+      <button 
+        type="submit"
+        class="w-full bg-primary hover:bg-indigo-500 py-3 rounded-xl font-medium transition shadow-lg hover:shadow-indigo-500/30"
+      >
+        Save Changes
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+<!-- ⭐ STAR SCRIPT -->
+<script>
+  const stars = document.querySelectorAll(".star");
+  const ratingInput = document.getElementById("ratingValue");
+  const ratingText = document.getElementById("ratingText");
+
+  let currentRating = parseInt(ratingInput.value) || 0;
+
+  function updateStars(rating) {
+    stars.forEach(star => {
+      if (parseInt(star.dataset.value) <= rating) {
+        star.classList.add("text-yellow-400");
+        star.classList.remove("text-gray-600");
+      } else {
+        star.classList.add("text-gray-600");
+        star.classList.remove("text-yellow-400");
+      }
+    });
+
+    ratingText.textContent = rating ? `${rating} / 5` : "Click to rate";
+  }
+
+  // Initialize
+  updateStars(currentRating);
+
+  stars.forEach(star => {
+    star.addEventListener("click", () => {
+      const value = parseInt(star.dataset.value);
+      ratingInput.value = value;
+      currentRating = value;
+      updateStars(value);
+    });
+  });
+</script>
+
+</body>
+</html>

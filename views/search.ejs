@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6366f1"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-[#020617] text-white">
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+  <!-- HEADER -->
+  <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8 sm:mb-10">
+
+    <div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+        <span class="bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
+          Search Results
+        </span>
+      </h1>
+
+      <p class="text-gray-500 mt-2 text-xs sm:text-sm">
+        Select a book and add your notes
+      </p>
+    </div>
+
+    <a href="/add"
+       class="text-gray-400 hover:text-white text-xs sm:text-sm transition">
+       ← Back to Search
+    </a>
+
+  </div>
+
+  <!-- GRID -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
+
+    <% books.forEach((book, index) => { %>
+
+    <div class="group relative bg-white/[0.04] backdrop-blur-2xl border border-white/10 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition duration-300 flex flex-col">
+
+      <!-- GLOW -->
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none">
+        <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-72 bg-indigo-500/10 blur-3xl"></div>
+      </div>
+
+      <!-- COVER -->
+      <div class="h-52 sm:h-64 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+        <% if (book.cover_i) { %>
+          <img 
+            src="https://covers.openlibrary.org/b/id/<%= book.cover_i %>-L.jpg"
+            class="h-full object-contain group-hover:scale-105 transition duration-300"
+          >
+        <% } else { %>
+          <span class="text-gray-600 text-xs sm:text-sm">No Cover</span>
+        <% } %>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="p-4 sm:p-6 flex flex-col flex-grow">
+
+        <h2 class="text-base sm:text-lg font-semibold leading-snug">
+          <%= book.title %>
+        </h2>
+
+        <p class="text-gray-400 text-xs sm:text-sm mt-1">
+          <%= book.author_name ? book.author_name[0] : "Unknown Author" %>
+        </p>
+
+        <!-- FORM -->
+        <form action="/add" method="POST" class="mt-4 sm:mt-5 space-y-3 sm:space-y-4">
+
+          <!-- Hidden -->
+          <input type="hidden" name="title" value="<%= book.title %>">
+          <input type="hidden" name="author" value="<%= book.author_name ? book.author_name[0] : '' %>">
+          <input type="hidden" name="cover_id" value="<%= book.cover_i || '' %>">
+
+          <!-- ⭐ STAR RATING + DATE -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+            <!-- STAR RATING -->
+            <div>
+              <p class="text-[10px] sm:text-xs text-gray-400 mb-1">Rating</p>
+
+              <div class="flex gap-1 star-rating">
+
+                <% for(let i = 1; i <= 5; i++) { %>
+                  <svg 
+                    data-value="<%= i %>"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="0 0 24 24" 
+                    fill="none"
+                    stroke="currentColor"
+                    class="w-5 h-5 cursor-pointer text-gray-600 hover:text-yellow-400 transition star"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                      d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.036 6.261h6.587c.969 0 
+                      1.371 1.24.588 1.81l-5.33 3.874 2.036 6.261c.3.921-.755 
+                      1.688-1.538 1.118L12 18.347l-5.33 3.874c-.783.57-1.838-.197-1.538-1.118
+                      l2.036-6.261-5.33-3.874c-.783-.57-.38-1.81.588-1.81h6.587l2.036-6.261z"/>
+                  </svg>
+                <% } %>
+
+              </div>
+
+              <input type="hidden" name="rating" class="rating-value">
+            </div>
+
+            <!-- DATE -->
+            <div>
+              <p class="text-[10px] sm:text-xs text-gray-400 mb-1">Date</p>
+
+              <input 
+                type="date" 
+                name="date_read"
+                value="<%= new Date().toISOString().split('T')[0] %>"
+                class="w-full bg-white/[0.05] border border-white/10 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 transition text-xs sm:text-sm"
+              >
+            </div>
+
+          </div>
+
+          <!-- NOTES -->
+          <textarea 
+            name="notes" 
+            rows="3"
+            placeholder="Add your thoughts..."
+            class="w-full bg-white/[0.05] border border-white/10 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition text-xs sm:text-sm"
+          ></textarea>
+
+          <!-- BUTTON -->
+          <button 
+            type="submit"
+            class="w-full bg-primary hover:bg-indigo-500 py-2.5 rounded-xl font-medium transition shadow-lg hover:shadow-indigo-500/30 text-xs sm:text-sm"
+          >
+            Add to Library
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+    <% }) %>
+
+  </div>
+
+</div>
+
+<!-- ⭐ STAR SCRIPT -->
+<script>
+  document.querySelectorAll(".star-rating").forEach(container => {
+
+    const stars = container.querySelectorAll(".star");
+    const input = container.parentElement.querySelector(".rating-value");
+
+    stars.forEach((star, index) => {
+
+      star.addEventListener("click", () => {
+        const value = index + 1;
+        input.value = value;
+
+        stars.forEach((s, i) => {
+          if (i < value) {
+            s.classList.add("text-yellow-400", "fill-yellow-400");
+            s.classList.remove("text-gray-600");
+          } else {
+            s.classList.remove("text-yellow-400", "fill-yellow-400");
+            s.classList.add("text-gray-600");
+          }
+        });
+      });
+
+    });
+
+  });
+</script>
+
+</body>
+</html>

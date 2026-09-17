@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= book.title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#6366f1"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-[#020617] text-white">
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+  <!-- BACK -->
+  <a href="/" class="text-gray-500 hover:text-white text-sm transition">
+    ← Back to Library
+  </a>
+
+  <!-- HERO -->
+  <div class="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14 items-start">
+
+    <!-- COVER -->
+    <div class="relative group mx-auto md:mx-0 w-full max-w-sm">
+
+      <!-- Glow -->
+      <div class="absolute -inset-8 sm:-inset-10 bg-indigo-500/10 blur-3xl opacity-30 group-hover:opacity-60 transition"></div>
+
+      <div class="relative bg-white/[0.04] backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-6 flex justify-center shadow-lg">
+
+        <% if (book.cover_id) { %>
+          <img 
+            src="https://covers.openlibrary.org/b/id/<%= book.cover_id %>-L.jpg"
+            class="w-full max-h-[300px] sm:max-h-[380px] md:max-h-[440px] object-contain drop-shadow-2xl group-hover:scale-105 transition duration-300"
+          >
+        <% } else { %>
+          <div class="h-[300px] sm:h-[380px] md:h-[440px] flex items-center justify-center text-gray-600">
+            No Cover Available
+          </div>
+        <% } %>
+
+      </div>
+
+    </div>
+
+    <!-- INFO -->
+    <div class="flex flex-col justify-between w-full">
+
+      <!-- TITLE -->
+      <div>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
+          <%= book.title %>
+        </h1>
+
+        <p class="text-gray-400 mt-2 sm:mt-3 text-base sm:text-lg">
+          <%= book.author || "Unknown Author" %>
+        </p>
+      </div>
+
+      <!-- META -->
+      <div class="mt-6 sm:mt-8 flex flex-wrap items-center gap-4 sm:gap-8">
+
+        <!-- ⭐ STAR RATING -->
+        <div class="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-2 rounded-lg">
+
+          <% const rating = Number(book.rating) || 0; %>
+
+          <div class="flex items-center gap-1 text-yellow-400">
+            <% for (let i = 1; i <= 5; i++) { %>
+              <% if (i <= rating) { %>
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                  <path d="M10 15l-5.878 3.09L5.5 12.545.999 8.41l6.06-.88L10 2l2.94 5.53 6.06.88-4.501 4.136 1.378 5.545z"/>
+                </svg>
+              <% } else { %>
+                <svg class="w-4 h-4 text-gray-600" viewBox="0 0 20 20">
+                  <path d="M10 15l-5.878 3.09L5.5 12.545.999 8.41l6.06-.88L10 2l2.94 5.53 6.06.88-4.501 4.136 1.378 5.545z"/>
+                </svg>
+              <% } %>
+            <% } %>
+          </div>
+
+          <span class="text-xs text-gray-400 ml-1">
+            <%= rating > 0 ? rating + "/5" : "" %>
+          </span>
+
+        </div>
+
+        <!-- DATE -->
+        <div class="text-gray-500 text-sm">
+          <%= book.date_read 
+            ? new Date(book.date_read).toLocaleDateString('en-CA') 
+            : "No date" %>
+        </div>
+
+      </div>
+
+      <!-- ACTIONS -->
+      <div class="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+
+        <a href="/edit/<%= book.id %>"
+           class="w-full sm:w-auto text-center bg-primary px-6 py-2.5 rounded-lg hover:bg-indigo-500 transition text-sm shadow-lg hover:shadow-indigo-500/30">
+          Edit Book
+        </a>
+
+        <form action="/delete/<%= book.id %>" method="POST" class="w-full sm:w-auto">
+          <button 
+            class="w-full sm:w-auto bg-red-500/90 px-6 py-2.5 rounded-lg hover:bg-red-500 transition text-sm shadow-lg hover:shadow-red-500/30">
+            Delete
+          </button>
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent my-10 sm:my-14"></div>
+
+  <!-- NOTES -->
+  <div class="max-w-4xl relative">
+
+    <!-- Heading -->
+    <h2 class="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">
+      Notes & Insights
+    </h2>
+
+    <!-- Glow -->
+    <div class="absolute inset-0 bg-indigo-500/5 blur-3xl opacity-30 pointer-events-none"></div>
+
+    <!-- Notes Card -->
+    <div class="relative bg-white/[0.04] backdrop-blur-xl border border-white/10 rounded-2xl p-5 sm:p-8 shadow-lg">
+
+      <!-- Quote -->
+      <div class="absolute left-3 sm:left-4 top-4 sm:top-6 text-5xl sm:text-6xl text-white/5 font-serif">
+        “
+      </div>
+
+      <% if (book.notes && book.notes.trim() !== "") { %>
+
+        <p class="text-gray-300 text-sm sm:text-[15px] leading-relaxed whitespace-pre-line relative z-10">
+          <%= book.notes %>
+        </p>
+
+      <% } else { %>
+
+        <p class="text-gray-500 italic text-sm">
+          No notes added yet. Start capturing insights from this book.
+        </p>
+
+      <% } %>
+
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
