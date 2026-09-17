@@ -12,6 +12,10 @@ A full-stack web application to capture, organize, and revisit insights from boo
 - 📖 Add books with title, author, rating, and notes
 - 🔍 Search books by title, author, or notes
 - 📊 Sort books by date, rating, or title
+- ✏️ Edit and delete books
+- 🖼️ Automatic book cover fetch (OpenLibrary API)
+- 📱 Fully responsive mobile UI
+- ⚡ RESTful backend with Express.js
 - ☁️ Cloud database (Neon PostgreSQL)
 - 🌐 Deployed on Render
 - ⚡ Fast and simple UI with EJS templates
@@ -100,11 +104,11 @@ CREATE TABLE books (
 
 ## 🔥 Future Improvements
 
-- [ ] ✏️ Edit/Delete books
-- [ ] 🔐 User authentication
-- [ ] 📚 Automatic book cover fetch
-- [ ] 📱 Responsive UI improvements
-- [ ] 📊 Analytics (reading trends)
+- [ ] 🔐 User authentication (login/signup)
+- [ ] 📊 Reading analytics dashboard
+- [ ] 📚 Pagination / infinite scroll
+- [ ] ⭐ Bookmark / favorites system
+- [ ] 📤 Export notes (PDF/Markdown)
 
 ---
 
