@@ -3,9 +3,6 @@ const { Client } = pkg;
 
 const db = new Client({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false, // required for Neon
-  },
 });
 
 db.connect()
