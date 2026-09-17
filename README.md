@@ -15,10 +15,6 @@ A full-stack web application to capture, organize, and revisit insights from boo
 - ✏️ Edit and delete books
 - 🖼️ Automatic book cover fetch (OpenLibrary API)
 - 📱 Fully responsive mobile UI
-- ⚡ RESTful backend with Express.js
-- ☁️ Cloud database (Neon PostgreSQL)
-- 🌐 Deployed on Render
-- ⚡ Fast and simple UI with EJS templates
 
 ---
 
