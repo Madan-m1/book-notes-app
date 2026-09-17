@@ -14,7 +14,7 @@ A full-stack web application to capture, organize, and revisit insights from boo
 - 📊 Sort books by date, rating, or title  
 - ✏️ Edit and delete books  
 - 🖼️ Fetch book covers automatically (OpenLibrary API)  
-- 📱 Fully responsive mobile UI  
+- 📱 View a fully responsive mobile UI  
 
 ---
 
